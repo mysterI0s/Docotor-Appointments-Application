@@ -1,7 +1,9 @@
-import 'package:final_project/features/authentication/screens/on_boarding_screen.dart';
+import 'package:final_project/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -22,6 +24,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OnBoardingScreen();
+    return const SplashScreen();
   }
 }

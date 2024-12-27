@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
         box.write(AppConst.isFirstOpen, false);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const OnBoardingScreen(),
+            builder: (context) => OnBoardingScreen(),
           ),
         );
       } else {

@@ -1,7 +1,9 @@
 import 'package:final_project/core/constants/app_images.dart';
 import 'package:final_project/core/generic_widgets/main_button.dart';
 import 'package:final_project/core/generic_widgets/onboarding_page_widget.dart';
+import 'package:final_project/core/theme/app_colors.dart';
 import 'package:final_project/features/authentication/cubit/onboarding_cubit.dart';
+import 'package:final_project/features/authentication/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -19,7 +21,6 @@ class OnBoardingScreen extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Top section with "Skip" button
             BlocBuilder<OnboardingCubit, OnboardingState>(
               builder: (context, state) {
                 return state.currentPage == 0
@@ -31,15 +32,18 @@ class OnBoardingScreen extends StatelessWidget {
                           children: [
                             TextButton(
                               onPressed: () {
-                                // Skip to the last page
-                                context.read<OnboardingCubit>().updatePage(1);
-                                pageController.jumpToPage(1);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const WelcomeScreen(),
+                                  ),
+                                );
                               },
                               child: const Text(
                                 "skip",
                                 style: TextStyle(
                                   fontSize: 16.0,
-                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.fontNearBlackColor,
                                 ),
                               ),
                             )
@@ -49,13 +53,11 @@ class OnBoardingScreen extends StatelessWidget {
                     : const SizedBox.shrink();
               },
             ),
-            // Center section with the onboarding pages
             Expanded(
               child: PageView(
                 controller: pageController,
                 physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: (index) {
-                  // Update the cubit's state on page swipe
                   context.read<OnboardingCubit>().updatePage(index);
                 },
                 children: const [
@@ -73,7 +75,6 @@ class OnBoardingScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // Bottom section with dots and "Next" or "Get Started" button
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
@@ -98,15 +99,17 @@ class OnBoardingScreen extends StatelessWidget {
                         minWidth: double.infinity,
                         onPressed: () {
                           if (state.currentPage == 0) {
-                            // Navigate to the next page
                             pageController.nextPage(
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeInOut,
                             );
                             context.read<OnboardingCubit>().nextPage();
                           } else {
-                            // Navigate to home screen or next screen
-                            Navigator.pushReplacementNamed(context, '/home');
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const WelcomeScreen(),
+                              ),
+                            );
                           }
                         },
                       );

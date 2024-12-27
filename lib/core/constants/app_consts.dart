@@ -5,4 +5,4 @@ class AppConst {
   static const String isFirstOpen = 'isFirstOpen';
 }
 
-final box = GetStorage();
+final GetStorage box = GetStorage();
