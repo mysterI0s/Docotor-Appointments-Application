@@ -1,3 +1,4 @@
+import 'package:final_project/features/authentication/screens/on_boarding_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,6 +10,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return OnBoardingScreen();
   }
 }

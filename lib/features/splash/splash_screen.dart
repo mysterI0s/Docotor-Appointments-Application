@@ -1,7 +1,7 @@
 import 'package:final_project/core/constants/app_images.dart';
 import 'package:final_project/core/theme/app_colors.dart';
 import 'package:final_project/features/authentication/screens/on_boarding_screen.dart';
-import 'package:final_project/features/authentication/screens/sign_in_screen.dart';
+import 'package:final_project/features/authentication/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_consts.dart';
@@ -17,9 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
-      if ((box.read('isFirstOpen') ?? true) == true) {
-        //isFirstOpen should be => AppConst.isFirstOpen
-        box.write('isFirstOpen', false);
+      if ((box.read(AppConst.isFirstOpen) ?? true) == true) {
+        box.write(AppConst.isFirstOpen, false);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const OnBoardingScreen(),
@@ -28,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => SignInScreen(),
+            builder: (context) => const WelcomeScreen(),
           ),
         );
       }

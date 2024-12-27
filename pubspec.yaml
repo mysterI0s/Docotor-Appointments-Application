@@ -41,6 +41,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   http: ^1.2.2
   get_storage: ^2.1.1
+  smooth_page_indicator: ^1.2.0+3
 
 dev_dependencies:
   flutter_test:
