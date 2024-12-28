@@ -4,6 +4,7 @@ import 'package:final_project/features/authentication/screens/sign_in_screen.dar
 import 'package:final_project/features/authentication/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:final_project/core/generic_widgets/main_button.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -13,15 +14,15 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: EdgeInsets.symmetric(
+              horizontal: 24.w), // Use ScreenUtil for padding
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              Text(
+              const Text(
                 "Welcome !",
-                style:
-                    AppTextStyle.f32W700NearBlackColor.copyWith(fontSize: 40),
+                style: AppTextStyle.f40W700NearBlackColor,
               ),
               const Spacer(),
               MainButton(
@@ -30,25 +31,28 @@ class WelcomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const SignUpScreen(),
+                      builder: (context) => SignUpScreen(),
                     ),
                   );
                 },
               ),
-              const SizedBox(height: 24.0),
+              SizedBox(height: 24.h),
               MainButton(
                 text: "Log In",
                 minWidth: double.infinity,
                 buttonColor: AppColors.snowColor,
+                textStyle: AppTextStyle.f16W700LightGrayColor.copyWith(
+                  color: AppColors.primaryColor,
+                ),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const SignInScreen(),
+                      builder: (context) => SignInScreen(),
                     ),
                   );
                 },
               ),
-              const SizedBox(height: 32.0),
+              SizedBox(height: 32.h),
             ],
           ),
         ),

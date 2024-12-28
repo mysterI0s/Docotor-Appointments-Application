@@ -9,10 +9,28 @@ class AppTextStyle {
     fontSize: 32,
     fontWeight: FontWeight.w700,
   );
+  static const TextStyle f40W700NearBlackColor = TextStyle(
+    color: AppColors.fontNearBlackColor,
+    fontFamily: AppConst.nunito,
+    fontSize: 40,
+    fontWeight: FontWeight.w700,
+  );
   static const TextStyle f16W400DarkGrayColor = TextStyle(
     color: AppColors.fontDarkGrayColor,
     fontFamily: AppConst.nunito,
     fontSize: 16,
     fontWeight: FontWeight.w400,
+  );
+  static const TextStyle f12W400NearBlackColor = TextStyle(
+    color: AppColors.fontNearBlackColor,
+    fontFamily: AppConst.nunito,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+  );
+  static const TextStyle f16W700LightGrayColor = TextStyle(
+    color: AppColors.lightGray,
+    fontFamily: AppConst.nunito,
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
   );
 }
