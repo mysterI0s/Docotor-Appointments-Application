@@ -12,11 +12,14 @@ class AppImages {
 
   static const String doc3 = 'assets/images/png/doc3.png';
 
-  static const String dentist = 'assets/images/gif/dentist.gif';
+  static const String profile = 'assets/images/png/profile.png';
 
-  static const String cardiologist = 'assets/images/gif/cardiologist.gif';
+  ///gif
+  static const String specialty_0 = 'assets/images/gif/dentist.gif';
 
-  static const String therapist = 'assets/images/gif/therapist.gif';
+  static const String specialty_1 = 'assets/images/gif/cardiologist.gif';
+
+  static const String specialty_2 = 'assets/images/gif/therapist.gif';
 
   ///svg
   static const String facebook = 'assets/images/svg/facebook.svg';
@@ -26,4 +29,22 @@ class AppImages {
   static const String chrome = 'assets/images/svg/chrome.svg';
 
   static const String hidden = 'assets/images/svg/hide.svg';
+
+  static const String search = 'assets/images/svg/search.svg';
+
+  static const String backArrow = 'assets/images/svg/back_arrow_icon.svg';
+
+  static const String calendar = 'assets/images/svg/calendar.svg';
+
+  static const String clock = 'assets/images/svg/clock.svg';
+
+  static const String favorite = 'assets/images/svg/favorite.svg';
+
+  static const String favorited = 'assets/images/svg/favorited.svg';
+
+  static const String home = 'assets/images/svg/home.svg';
+
+  static const String notification = 'assets/images/svg/notification.svg';
+
+  static const String star = 'assets/images/svg/star.svg';
 }

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../theme/app_colors.dart';
-import '../../theme/app_text_style.dart';
 import 'bloc/text_form_field_cubit.dart';
 import 'bloc/text_form_field_state.dart';
 
@@ -27,7 +26,6 @@ class CustomTextFormField extends StatelessWidget {
           child: TextFormField(
             controller: controller,
             decoration: InputDecoration(
-              hintStyle: AppTextStyle.f16W400DarkGrayColor,
               contentPadding: EdgeInsets.symmetric(
                 vertical: 14.h,
                 horizontal: 16.w,
@@ -39,29 +37,30 @@ class CustomTextFormField extends StatelessWidget {
                 ),
               ),
               suffixIcon: Visibility(
-                  visible: isPassword || isConfirmPassword,
-                  child: IconButton(
-                    onPressed: () {
-                      if (isPassword) {
-                        context.read<TextFormFieldCubit>().changeHiddenStatue();
-                      } else if (isConfirmPassword) {
-                        context
-                            .read<TextFormFieldCubit>()
-                            .changeConfrimHiddenStatue();
-                      }
-                    },
-                    icon: Icon(isPassword
-                        ? (context.read<TextFormFieldCubit>().hiddenPassword)
-                            ? Icons.visibility_off
-                            : Icons.visibility
-                        : (isConfirmPassword)
-                            ? (context
-                                    .read<TextFormFieldCubit>()
-                                    .hiddenConfirmPassword)
-                                ? Icons.visibility_off
-                                : Icons.visibility
-                            : null),
-                  )),
+                visible: isPassword || isConfirmPassword,
+                child: IconButton(
+                  onPressed: () {
+                    if (isPassword) {
+                      context.read<TextFormFieldCubit>().changeHiddenStatue();
+                    } else if (isConfirmPassword) {
+                      context
+                          .read<TextFormFieldCubit>()
+                          .changeConfrimHiddenStatue();
+                    }
+                  },
+                  icon: Icon(isPassword
+                      ? (context.read<TextFormFieldCubit>().hiddenPassword)
+                          ? Icons.visibility_off
+                          : Icons.visibility
+                      : (isConfirmPassword)
+                          ? (context
+                                  .read<TextFormFieldCubit>()
+                                  .hiddenConfirmPassword)
+                              ? Icons.visibility_off
+                              : Icons.visibility
+                          : null),
+                ),
+              ),
             ),
             obscureText: isPassword
                 ? context.read<TextFormFieldCubit>().hiddenPassword

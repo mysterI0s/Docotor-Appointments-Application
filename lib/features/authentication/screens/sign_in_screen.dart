@@ -1,3 +1,4 @@
+import 'package:final_project/core/constants/app_consts.dart';
 import 'package:final_project/core/constants/app_images.dart';
 import 'package:final_project/core/generic_widgets/custom_text_form_field/custom_text_form_field.dart';
 import 'package:final_project/core/generic_widgets/main_button.dart';
@@ -88,6 +89,7 @@ class SignInScreen extends StatelessWidget {
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state is LoginSuccessState) {
+                      box.write('isLoggedIn', true);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text("Logged in Successfully!"),
@@ -97,7 +99,7 @@ class SignInScreen extends StatelessWidget {
                       Future.delayed(const Duration(seconds: 1), () {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
+                            builder: (context) => HomeScreen(),
                           ),
                           (Route<dynamic> route) => false,
                         );

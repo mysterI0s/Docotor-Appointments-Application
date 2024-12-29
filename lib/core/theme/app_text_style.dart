@@ -33,4 +33,16 @@ class AppTextStyle {
     fontSize: 16,
     fontWeight: FontWeight.w700,
   );
+  static const TextStyle f20W700NearBlackColor = TextStyle(
+    color: AppColors.fontNearBlackColor,
+    fontFamily: AppConst.nunito,
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+  );
+  static const TextStyle f16W400NearBlackColor = TextStyle(
+    color: AppColors.fontNearBlackColor,
+    fontFamily: AppConst.nunito,
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+  );
 }

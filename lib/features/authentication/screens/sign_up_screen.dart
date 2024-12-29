@@ -143,7 +143,7 @@ class SignUpScreen extends StatelessWidget {
                       Future.delayed(const Duration(seconds: 1), () {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
+                            builder: (context) => HomeScreen(),
                           ),
                           (Route<dynamic> route) => false,
                         );
