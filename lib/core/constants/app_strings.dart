@@ -54,4 +54,6 @@ class AppStrings {
   static const String pleaseFillAllFields = "please_fill_all_fields";
   static const String signedUpSuccessfully = "signed_upp_successfully";
   static const String phoneNumber = "phone_number";
+  static const String invalidPassword = "invalid_password";
+  static const String passwordsDoNotMatch = "passwords_do_not_match";
 }

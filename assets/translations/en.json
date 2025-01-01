@@ -53,5 +53,7 @@
     "logged_in_successfully!" : "Logged In Successfully!",
     "please_fill_all_fields" : "Please fill all fields",
     "signed_upp_successfully" : "Signed up Successfully!",
-    "phone_number" : "Phone Number"
+    "phone_number" : "Phone Number",
+    "invalid_password" : "Invalid Password",
+    "passwords_do_not_match" : "Password do not match"
 }

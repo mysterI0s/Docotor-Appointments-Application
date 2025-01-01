@@ -69,11 +69,40 @@ class NewPasswordScreen extends StatelessWidget {
                 MainButton(
                   text: AppStrings.continueText.tr(),
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => SignInScreen(),
-                      ),
-                    );
+                    final regex = RegExp(
+                        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$');
+                    final password = passwordController.text.trim();
+                    final confirmPassword =
+                        confirmPasswordController.text.trim();
+
+                    if (password.isEmpty || confirmPassword.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(AppStrings.pleaseFillAllFields.tr()),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } else if (!regex.hasMatch(password)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(AppStrings.invalidPassword.tr()),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } else if (password != confirmPassword) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(AppStrings.passwordsDoNotMatch.tr()),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } else {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => SignInScreen(),
+                        ),
+                      );
+                    }
                   },
                 ),
               ],

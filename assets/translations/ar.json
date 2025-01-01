@@ -53,5 +53,7 @@
     "logged_in_successfully!" : "تم تسجيل الدخول بنجاح",
     "please_fill_all_fields" : "الرجاء ملئ جميع الحقول",
     "signed_upp_successfully" : "تم التسجيل بنجاح",
-    "phone_number" : "رقم الهاتف"
+    "phone_number" : "رقم الهاتف",
+    "invalid_password" : "كلمة سر غير صحيحة",
+    "passwords_do_not_match" : "لا يوجد تطابق"
 }

@@ -108,27 +108,48 @@ class SignUpScreen extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     } else {
                       return MainButton(
-                          text: AppStrings.signup.tr(),
-                          onPressed: () {
-                            if (emailAddressController.text.isNotEmpty &&
-                                nameController.text.isNotEmpty &&
-                                passwordController.text.isNotEmpty &&
-                                confirmPasswordController.text.isNotEmpty) {
-                              context.read<AuthCubit>().register(
-                                    emailAddressController.text,
-                                    nameController.text,
-                                    passwordController.text,
-                                    confirmPasswordController.text,
-                                  );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Please fill all fields"),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          });
+                        text: AppStrings.signup.tr(),
+                        onPressed: () {
+                          final regex = RegExp(
+                              r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$');
+                          final name = nameController.text.trim();
+                          final email = emailAddressController.text.trim();
+                          final password = passwordController.text.trim();
+                          final confirmPassword =
+                              confirmPasswordController.text.trim();
+
+                          if (name.isEmpty ||
+                              email.isEmpty ||
+                              password.isEmpty ||
+                              confirmPassword.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text(AppStrings.pleaseFillAllFields.tr()),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          } else if (!regex.hasMatch(password)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppStrings.invalidPassword.tr()),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          } else if (password != confirmPassword) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text(AppStrings.passwordsDoNotMatch.tr()),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          } else {
+                            context.read<AuthCubit>().register(
+                                email, name, password, confirmPassword);
+                          }
+                        },
+                      );
                     }
                   },
                   listener: (BuildContext context, AuthState state) {

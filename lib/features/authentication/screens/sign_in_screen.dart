@@ -126,12 +126,12 @@ class SignInScreen extends StatelessWidget {
                     return MainButton(
                       text: AppStrings.login.tr(),
                       onPressed: () {
+                        final regex = RegExp(
+                            r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$');
                         final email = emailController.text.trim();
                         final password = passwordController.text.trim();
 
-                        if (email.isNotEmpty && password.isNotEmpty) {
-                          context.read<AuthCubit>().login(email, password);
-                        } else {
+                        if (email.isEmpty || password.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content:
@@ -139,6 +139,15 @@ class SignInScreen extends StatelessWidget {
                               backgroundColor: Colors.red,
                             ),
                           );
+                        } else if (!regex.hasMatch(password)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(AppStrings.invalidPassword.tr()),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } else {
+                          context.read<AuthCubit>().login(email, password);
                         }
                       },
                     );
