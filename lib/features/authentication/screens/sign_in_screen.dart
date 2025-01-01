@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/constants/app_consts.dart';
 import 'package:final_project/core/constants/app_images.dart';
+import 'package:final_project/core/constants/app_strings.dart';
 import 'package:final_project/core/generic_widgets/custom_text_form_field/custom_text_form_field.dart';
 import 'package:final_project/core/generic_widgets/main_button.dart';
 import 'package:final_project/core/theme/app_colors.dart';
@@ -34,8 +36,8 @@ class SignInScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  "Log In",
+                Text(
+                  AppStrings.login.tr(),
                   textAlign: TextAlign.center,
                   style: AppTextStyle.f40W700NearBlackColor,
                 ),
@@ -43,7 +45,7 @@ class SignInScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Email",
+                    AppStrings.email.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
@@ -57,7 +59,7 @@ class SignInScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Password",
+                    AppStrings.password.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
@@ -78,7 +80,7 @@ class SignInScreen extends StatelessWidget {
                       ));
                     },
                     child: Text(
-                      "Forgot Password?",
+                      AppStrings.forgotPassword.tr(),
                       style: AppTextStyle.f12W400NearBlackColor.copyWith(
                         fontSize: 12.sp,
                       ),
@@ -89,10 +91,11 @@ class SignInScreen extends StatelessWidget {
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state is LoginSuccessState) {
-                      box.write('isLoggedIn', true);
+                      box.write(AppConst.isLoggedIn, true);
+                      box.write(AppConst.accessToken, state.model.accessToken);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Logged in Successfully!"),
+                        SnackBar(
+                          content: Text(AppStrings.loggedInSuccessfully.tr()),
                           backgroundColor: Colors.green,
                         ),
                       );
@@ -121,7 +124,7 @@ class SignInScreen extends StatelessWidget {
                     }
 
                     return MainButton(
-                      text: 'Log In',
+                      text: AppStrings.login.tr(),
                       onPressed: () {
                         final email = emailController.text.trim();
                         final password = passwordController.text.trim();
@@ -130,8 +133,9 @@ class SignInScreen extends StatelessWidget {
                           context.read<AuthCubit>().login(email, password);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Please fill all fields"),
+                            SnackBar(
+                              content:
+                                  Text(AppStrings.pleaseFillAllFields.tr()),
                               backgroundColor: Colors.red,
                             ),
                           );
@@ -144,7 +148,7 @@ class SignInScreen extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "Or",
+                      AppStrings.or.tr(),
                       style: AppTextStyle.f32W700NearBlackColor.copyWith(
                         fontSize: 16.sp,
                       ),
@@ -194,7 +198,7 @@ class SignInScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't Have An Account? ",
+                      AppStrings.doNotHaveAccount.tr(),
                       style: AppTextStyle.f12W400NearBlackColor.copyWith(
                         fontSize: 12.sp,
                       ),
@@ -208,7 +212,7 @@ class SignInScreen extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        "Sign Up",
+                        AppStrings.signup.tr(),
                         style: AppTextStyle.f12W400NearBlackColor.copyWith(
                           fontSize: 12.sp,
                           color: AppColors.primaryColor,

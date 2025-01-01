@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/constants/app_images.dart';
+import 'package:final_project/core/constants/app_strings.dart';
 import 'package:final_project/core/generic_widgets/custom_text_form_field/bloc/text_form_field_cubit.dart';
 import 'package:final_project/core/generic_widgets/custom_text_form_field/custom_text_form_field.dart';
 import 'package:final_project/core/generic_widgets/main_button.dart';
@@ -28,8 +30,8 @@ class ForgotPasswordScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  "Forgot Password?",
+                Text(
+                  AppStrings.forgotPassword.tr(),
                   textAlign: TextAlign.center,
                   style: AppTextStyle.f40W700NearBlackColor,
                 ),
@@ -37,7 +39,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Email Address",
+                    AppStrings.email.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
@@ -50,7 +52,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 SizedBox(height: 20.h),
                 SizedBox(height: 178.h),
                 MainButton(
-                  text: 'Send Code',
+                  text: AppStrings.sendCode.tr(),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -63,7 +65,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "Or",
+                      AppStrings.or.tr(),
                       style: AppTextStyle.f32W700NearBlackColor.copyWith(
                         fontSize: 16.sp,
                       ),

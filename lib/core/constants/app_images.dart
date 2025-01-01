@@ -47,4 +47,8 @@ class AppImages {
   static const String notification = 'assets/images/svg/notification.svg';
 
   static const String star = 'assets/images/svg/star.svg';
+
+  static const String logout = 'assets/images/svg/logout.svg';
+
+  static const String add = 'assets/images/svg/add.svg';
 }

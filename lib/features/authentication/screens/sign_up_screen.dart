@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/constants/app_consts.dart';
 import 'package:final_project/core/constants/app_images.dart';
+import 'package:final_project/core/constants/app_strings.dart';
 import 'package:final_project/core/generic_widgets/custom_text_form_field/bloc/text_form_field_cubit.dart';
 import 'package:final_project/core/generic_widgets/custom_text_form_field/custom_text_form_field.dart';
 import 'package:final_project/core/generic_widgets/main_button.dart';
@@ -8,7 +10,6 @@ import 'package:final_project/core/theme/app_text_style.dart';
 import 'package:final_project/features/authentication/cubit/auth_cubit.dart';
 import 'package:final_project/features/authentication/cubit/auth_state.dart';
 import 'package:final_project/features/authentication/screens/sign_in_screen.dart';
-import 'package:final_project/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,8 +38,8 @@ class SignUpScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  "Sign Up",
+                Text(
+                  AppStrings.signup.tr(),
                   textAlign: TextAlign.center,
                   style: AppTextStyle.f40W700NearBlackColor,
                 ),
@@ -46,7 +47,7 @@ class SignUpScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Name",
+                    AppStrings.name.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
@@ -60,7 +61,7 @@ class SignUpScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Email Address",
+                    AppStrings.email.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
@@ -74,7 +75,7 @@ class SignUpScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Password",
+                    AppStrings.password.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
@@ -89,7 +90,7 @@ class SignUpScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Confirm Password",
+                    AppStrings.confirmPassword.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
@@ -107,7 +108,7 @@ class SignUpScreen extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     } else {
                       return MainButton(
-                          text: "Sign Up",
+                          text: AppStrings.signup.tr(),
                           onPressed: () {
                             if (emailAddressController.text.isNotEmpty &&
                                 nameController.text.isNotEmpty &&
@@ -132,18 +133,17 @@ class SignUpScreen extends StatelessWidget {
                   },
                   listener: (BuildContext context, AuthState state) {
                     if (state is RegisterSuccessState) {
-                      box.write('isLoggedIn', true);
-                      box.write('user', state.model.user?.toJson());
+                      box.write(AppConst.user, state.model.user?.toJson());
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Signed up Successfully!"),
+                        SnackBar(
+                          content: Text(AppStrings.signedUpSuccessfully.tr()),
                           backgroundColor: Colors.green,
                         ),
                       );
                       Future.delayed(const Duration(seconds: 1), () {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
+                            builder: (context) => SignInScreen(),
                           ),
                           (Route<dynamic> route) => false,
                         );
@@ -160,7 +160,7 @@ class SignUpScreen extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "Or",
+                      AppStrings.or.tr(),
                       style: AppTextStyle.f32W700NearBlackColor.copyWith(
                         fontSize: 16.sp,
                       ),
@@ -210,7 +210,7 @@ class SignUpScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Have An Account? ",
+                      AppStrings.haveAccount.tr(),
                       style: AppTextStyle.f12W400NearBlackColor.copyWith(
                         fontSize: 12.sp,
                       ),
@@ -224,7 +224,7 @@ class SignUpScreen extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        "Log In",
+                        AppStrings.login.tr(),
                         style: AppTextStyle.f12W400NearBlackColor.copyWith(
                           fontSize: 12.sp,
                           color: AppColors.primaryColor,

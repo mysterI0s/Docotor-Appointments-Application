@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:final_project/core/constants/app_strings.dart';
 import 'package:final_project/core/generic_widgets/main_button.dart';
 import 'package:final_project/core/theme/app_colors.dart';
 import 'package:final_project/core/theme/app_text_style.dart';
@@ -23,8 +25,8 @@ class VerificationScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                "Verification",
+              Text(
+                AppStrings.verification.tr(),
                 textAlign: TextAlign.center,
                 style: AppTextStyle.f40W700NearBlackColor,
               ),
@@ -32,7 +34,7 @@ class VerificationScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Enter Verification Code",
+                  AppStrings.enterVerificationCode.tr(),
                   style: AppTextStyle.f12W400NearBlackColor.copyWith(
                     fontSize: 12.sp,
                   ),
@@ -44,7 +46,6 @@ class VerificationScreen extends StatelessWidget {
                 appContext: context,
                 length: 4,
                 controller: pinController,
-                cursorColor: Colors.black,
                 pinTheme: PinTheme(
                   shape: PinCodeFieldShape.box,
                   borderRadius: BorderRadius.circular(16.r),
@@ -60,13 +61,13 @@ class VerificationScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text.rich(
                   TextSpan(
-                    text: "If You Didn't Receive A Code. ",
+                    text: AppStrings.didNotReceiveCode.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
                     children: [
                       TextSpan(
-                        text: "Resend",
+                        text: AppStrings.resend.tr(),
                         style: AppTextStyle.f12W400NearBlackColor.copyWith(
                           fontSize: 12.sp,
                           color: Colors.teal,
@@ -79,7 +80,7 @@ class VerificationScreen extends StatelessWidget {
               ),
               SizedBox(height: 93.h),
               MainButton(
-                text: 'Enter Code',
+                text: AppStrings.enterCode.tr(),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(

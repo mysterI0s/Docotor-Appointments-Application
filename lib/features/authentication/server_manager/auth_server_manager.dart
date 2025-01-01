@@ -43,4 +43,20 @@ class AuthServerManager {
       throw (data["message"]);
     }
   }
+
+  Future<void> logout(String token) async {
+    final http.Response response = await http.post(
+      Uri.parse('$baseUrl/logout'),
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 204) {
+    } else {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      throw (data["message"] ?? "Logout failed");
+    }
+  }
 }

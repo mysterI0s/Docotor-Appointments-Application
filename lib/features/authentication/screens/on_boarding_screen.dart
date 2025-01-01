@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/constants/app_images.dart';
+import 'package:final_project/core/constants/app_strings.dart';
 import 'package:final_project/core/generic_widgets/main_button.dart';
 import 'package:final_project/core/generic_widgets/onboarding_page_widget.dart';
-import 'package:final_project/core/theme/app_colors.dart';
+import 'package:final_project/core/theme/app_text_style.dart';
 import 'package:final_project/features/authentication/cubit/onboarding_cubit.dart';
 import 'package:final_project/features/authentication/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
@@ -38,13 +40,9 @@ class OnBoardingScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: const Text(
-                                "skip",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.fontNearBlackColor,
-                                ),
+                              child: Text(
+                                AppStrings.skip.tr(),
+                                style: AppTextStyle.f16W400NearBlackColor,
                               ),
                             )
                           ],
@@ -60,17 +58,17 @@ class OnBoardingScreen extends StatelessWidget {
                 onPageChanged: (index) {
                   context.read<OnboardingCubit>().updatePage(index);
                 },
-                children: const [
+                children: [
                   OnboardingPageWidget(
                     imagePath: AppImages.onBoardingImage1,
-                    title: "Online health check",
+                    title: AppStrings.onlineHealthCheck.tr(),
                     description: "Book The Best Doctor In Various\nSpecialties",
                   ),
                   OnboardingPageWidget(
                     imagePath: AppImages.onBoardingImage2,
-                    title: "Near To You",
+                    title: AppStrings.nearToYou.tr(),
                     description:
-                        "Schedule Your Visit At Any Time\nThat Suits You",
+                        AppStrings.scheduleYourVisit.tr(),
                   ),
                 ],
               ),
@@ -95,7 +93,7 @@ class OnBoardingScreen extends StatelessWidget {
                   BlocBuilder<OnboardingCubit, OnboardingState>(
                     builder: (context, state) {
                       return MainButton(
-                        text: state.currentPage == 0 ? "Next" : "Get Started",
+                        text: state.currentPage == 0 ? AppStrings.next.tr() : AppStrings.getStarted.tr(),
                         minWidth: double.infinity,
                         onPressed: () {
                           if (state.currentPage == 0) {

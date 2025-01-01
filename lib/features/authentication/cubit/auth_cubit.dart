@@ -10,10 +10,16 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthServerManager authServerManager = AuthServerManager();
 
-  void register(String email,String name, String password,String confirmPassword,) async {
+  void register(
+    String email,
+    String name,
+    String password,
+    String confirmPassword,
+  ) async {
     emit(RegisterLoadingState());
     try {
-      RegisterModel x = await authServerManager.register(email, name,password,confirmPassword);
+      RegisterModel x = await authServerManager.register(
+          email, name, password, confirmPassword);
       emit(RegisterSuccessState(model: x));
     } catch (e) {
       emit(RegisterErrorState(e.toString()));
@@ -27,6 +33,16 @@ class AuthCubit extends Cubit<AuthState> {
       emit(LoginSuccessState(model: x));
     } catch (e) {
       emit(LoginErrorState(e.toString()));
+    }
+  }
+
+  void logout(String token) async {
+    emit(LogoutLoadingState());
+    try {
+      await authServerManager.logout(token);
+      emit(LogoutSuccessState());
+    } catch (e) {
+      emit(LogoutErrorState(e.toString()));
     }
   }
 }

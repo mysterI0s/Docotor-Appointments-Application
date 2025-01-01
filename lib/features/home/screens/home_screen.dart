@@ -1,37 +1,174 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:final_project/core/constants/app_consts.dart';
 import 'package:final_project/core/constants/app_images.dart';
+import 'package:final_project/core/constants/app_strings.dart';
 import 'package:final_project/core/generic_widgets/bottom_navigation_bar/bottom_navigation_bar_items.dart';
 import 'package:final_project/core/generic_widgets/bottom_navigation_bar/cubit/bottom_navigation_cubit.dart';
 import 'package:final_project/core/theme/app_colors.dart';
 import 'package:final_project/core/theme/app_text_style.dart';
+import 'package:final_project/core/theme/cubit/theme_cubit.dart';
+import 'package:final_project/features/authentication/cubit/auth_cubit.dart';
+import 'package:final_project/features/authentication/cubit/auth_state.dart';
+import 'package:final_project/features/authentication/screens/sign_in_screen.dart';
+import 'package:final_project/features/home/cubit/favorite_cubit.dart';
+import 'package:final_project/features/home/cubit/favorite_state.dart';
+import 'package:final_project/features/home/doctors_bank.dart';
+import 'package:final_project/features/settings/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
-  final String userName = "Ghalia";
+  final userData = box.read(AppConst.user);
+  final token = box.read(AppConst.accessToken);
 
-  final List<Map<String, String>> specialties = [
-    {"image": AppImages.specialty_0, "name": "Dentist"},
-    {"image": AppImages.specialty_1, "name": "Cardiologist"},
-    {"image": AppImages.specialty_2, "name": "Psychiatrist"},
-  ];
+  final DoctorsBank doctorsBank = DoctorsBank();
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => BottomNavigationCubit(),
+      create: (_) => FavoriteCubit(doctorsBank.recentVisits.length),
       child: Scaffold(
+        key: _scaffoldKey,
+        endDrawer: Drawer(
+          width: 187.5.w,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 64.h,
+              ),
+              CircleAvatar(
+                radius: 40.r,
+                child: ClipOval(
+                  child: Image(
+                    fit: BoxFit.cover,
+                    width: 80.r,
+                    height: 80.r,
+                    image: const AssetImage(
+                      AppImages.profile,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Text(
+                userData['name'],
+                style: AppTextStyle.f20W700NearBlackColor,
+              ),
+              SizedBox(
+                height: 64.h,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SettingsScreen(),
+                    ),
+                  );
+                },
+                child: Text(
+                  AppStrings.settings.tr(),
+                  style: AppTextStyle.f16W400NearBlackColor,
+                ),
+              ),
+              SizedBox(
+                height: 21.h,
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<ThemeCubit>().toggleTheme();
+                },
+                child: Text(
+                  AppStrings.darkMode.tr(),
+                  style: AppTextStyle.f16W400NearBlackColor,
+                ),
+              ),
+              SizedBox(
+                height: 21.h,
+              ),
+              TextButton(
+                onPressed: () {
+                  final currentLocale = context.locale;
+                  if (currentLocale.languageCode == 'en') {
+                    context.setLocale(const Locale('ar'));
+                  } else {
+                    context.setLocale(const Locale('en'));
+                  }
+                },
+                child: Text(
+                  AppStrings.language.tr(),
+                  style: AppTextStyle.f16W400NearBlackColor,
+                ),
+              ),
+              SizedBox(
+                height: 21.h,
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  AppStrings.aboutUs.tr(),
+                  style: AppTextStyle.f16W400NearBlackColor,
+                ),
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  BlocListener<AuthCubit, AuthState>(
+                    listener: (context, state) {
+                      if (state is LogoutSuccessState) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => SignInScreen(),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                      } else if (state is LogoutErrorState) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.errorMsg)),
+                        );
+                      }
+                    },
+                    child: InkWell(
+                      onTap: () {
+                        context.read<AuthCubit>().logout(token);
+                      },
+                      child: SvgPicture.asset(
+                        AppImages.logout,
+                        width: 24.r,
+                        height: 24.r,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4.w,
+                  ),
+                  Text(AppStrings.logout.tr()),
+                  SizedBox(
+                    width: 24.w,
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 32.h,
+              )
+            ],
+          ),
+        ),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(24.0.w),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Header Section
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -39,31 +176,43 @@ class HomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Hello $userName!",
+                            "${AppStrings.hello.tr()} ${userData['name']}!",
                             style: AppTextStyle.f20W700NearBlackColor.copyWith(
-                              fontSize: 24,
+                              fontSize: 24.sp,
                             ),
                           ),
                           Text(
-                            "How Are You Feeling Today?",
+                            AppStrings.howAreYouFeelingToday.tr(),
                             style: AppTextStyle.f16W400NearBlackColor.copyWith(
-                              fontSize: 14,
+                              fontSize: 14.sp,
                             ),
                           ),
                         ],
                       ),
-                      CircleAvatar(
-                        radius: 28.r,
-                        child: const Image(
-                          image: AssetImage(
-                            AppImages.profile,
+                      InkWell(
+                        borderRadius: BorderRadius.circular(
+                          100.r,
+                        ),
+                        onTap: () {
+                          _scaffoldKey.currentState?.openEndDrawer();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(
+                            4.w,
+                          ),
+                          child: CircleAvatar(
+                            radius: 28.r,
+                            child: const Image(
+                              image: AssetImage(
+                                AppImages.profile,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 24.h),
-                  // Search Bar
                   SizedBox(
                     height: 48.h,
                     child: TextField(
@@ -73,7 +222,7 @@ class HomeScreen extends StatelessWidget {
                           horizontal: 16.w,
                         ),
                         suffixIcon: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0.w),
                           child: SvgPicture.asset(
                             AppImages.search,
                             width: 18.r,
@@ -90,14 +239,13 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8.h),
-                  // Horizontal ListView for Medical Specialties
-                  const Text(
-                    "What Are You Looking For?",
+                  Text(
+                    AppStrings.whatLookingFor.tr(),
                     style: AppTextStyle.f20W700NearBlackColor,
                   ),
                   SizedBox(height: 8.h),
                   SizedBox(
-                    height: 102,
+                    height: 103.h,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: 3,
@@ -105,20 +253,20 @@ class HomeScreen extends StatelessWidget {
                         return Column(
                           children: [
                             Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              height: 76,
-                              width: 80,
+                              margin: EdgeInsets.symmetric(horizontal: 8.w),
+                              height: 76.h,
+                              width: 80.w,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(8.r),
                                 image: DecorationImage(
-                                  image:
-                                      AssetImage(specialties[index]['image']!),
+                                  image: AssetImage(
+                                      doctorsBank.specialties[index]['image']!),
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                             Text(
-                              specialties[index]['name']!,
+                              doctorsBank.specialties[index]['name']!,
                               style: AppTextStyle.f16W400NearBlackColor,
                             ),
                           ],
@@ -126,15 +274,17 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  // "Don't Forget" Section
-                  const Text(
-                    "Don't Forget",
+                  SizedBox(height: 32.h),
+                  Text(
+                    AppStrings.doNotForget.tr(),
                     style: AppTextStyle.f20W700NearBlackColor,
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 12.h,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.primaryColor,
                       borderRadius: BorderRadius.circular(8.r),
@@ -143,49 +293,46 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            // Doctor's Image
-                            const CircleAvatar(
-                              backgroundImage: AssetImage(
-                                'assets/images/doctor1.png',
-                              ), // Update with your image asset path
-                              radius: 32,
+                            CircleAvatar(
+                              backgroundImage: const AssetImage(
+                                AppImages.doc2,
+                              ),
+                              radius: 32.r,
                             ),
                             SizedBox(
                               width: 7.w,
                             ),
-                            // Doctor's Info
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "Dr. Assaed Hanash", // Doctor's name
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.white,
+                                  Text(
+                                    AppStrings.drAssaedHanash.tr(),
+                                    style: AppTextStyle.f20W700NearBlackColor
+                                        .copyWith(
+                                      color: AppColors.lightGray,
                                     ),
                                   ),
-                                  const Text(
-                                    "ENT", // Specialty
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white70,
+                                  Text(
+                                    "ENT",
+                                    style: AppTextStyle.f16W400NearBlackColor
+                                        .copyWith(
+                                      color: AppColors.lightGray,
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 8.h,
-                                  ), // Space before the date and time row
                                 ],
                               ),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 16.h,
+                          height: 22.h,
                         ),
                         Container(
                           height: 34.h,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 7.w,
+                          ),
                           padding: EdgeInsets.symmetric(
                             horizontal: 8.w,
                             vertical: 5.h,
@@ -196,7 +343,6 @@ class HomeScreen extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              // Date Info
                               Row(
                                 children: [
                                   SvgPicture.asset(
@@ -217,7 +363,6 @@ class HomeScreen extends StatelessWidget {
                               SizedBox(
                                 width: 17.w,
                               ),
-                              // Time Info
                               Row(
                                 children: [
                                   SvgPicture.asset(
@@ -225,12 +370,12 @@ class HomeScreen extends StatelessWidget {
                                     width: 18.r,
                                     height: 18.r,
                                   ),
-                                  SizedBox(width: 2.w),
+                                  SizedBox(width: 1.w),
                                   Text(
-                                    "10:30 - 11:30 AM", // Time
+                                    "10:30 - 11:30 AM",
                                     style: AppTextStyle.f16W400NearBlackColor
                                         .copyWith(
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                 ],
@@ -241,53 +386,133 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  // Doctors Available Section
+                  SizedBox(height: 24.h),
+                  Text(
+                    AppStrings.recentVisit.tr(),
+                    style: AppTextStyle.f20W700NearBlackColor,
+                  ),
+                  SizedBox(height: 8.h),
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 5, // Replace with actual count
+                    itemCount: 3,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                      return Container(
+                        height: 135.h,
+                        margin: EdgeInsets.only(
+                          bottom: 8.h,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage:
-                                    AssetImage("assets/doctor$index.png"),
-                                radius: 30,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 16.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.snowColor,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 103.h,
+                              width: 100.w,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      doctorsBank.recentVisits[index].image),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              const SizedBox(width: 16),
-                              const Column(
+                            ),
+                            SizedBox(
+                              width: 9.w,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Dr. Nour Srour",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  Text("ENT"),
                                   Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Icon(Icons.star,
-                                          size: 16, color: Colors.yellow),
-                                      SizedBox(width: 4),
-                                      Text("4.9"),
-                                      SizedBox(width: 16),
-                                      Text("\$25/hr"),
+                                      Expanded(
+                                        child: Text(
+                                          doctorsBank.recentVisits[index].name,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: AppTextStyle
+                                              .f20W700NearBlackColor,
+                                        ),
+                                      ),
+                                      BlocBuilder<FavoriteCubit, FavoriteState>(
+                                        builder:
+                                            (context, FavoriteState state) {
+                                          final isFavorite = context
+                                              .read<FavoriteCubit>()
+                                              .isFavorite(index);
+                                          return InkWell(
+                                            onTap: () {
+                                              context
+                                                  .read<FavoriteCubit>()
+                                                  .toggleFavorite(index);
+                                            },
+                                            borderRadius: BorderRadius.circular(
+                                              8.r,
+                                            ),
+                                            child: Container(
+                                              padding: EdgeInsets.all(
+                                                8.w,
+                                              ),
+                                              child: SvgPicture.asset(
+                                                isFavorite
+                                                    ? AppImages.favorited
+                                                    : AppImages.favorite,
+                                                width: 24.r,
+                                                height: 24.r,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    doctorsBank.recentVisits[index].specialty,
+                                    style: AppTextStyle.f16W400NearBlackColor,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            AppImages.star,
+                                            width: 18.r,
+                                            height: 18.r,
+                                          ),
+                                          SizedBox(width: 4.w),
+                                          Text(
+                                            doctorsBank
+                                                .recentVisits[index].rating,
+                                            style: AppTextStyle
+                                                .f16W400NearBlackColor,
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                        doctorsBank.recentVisits[index].price,
+                                        style:
+                                            AppTextStyle.f16W400NearBlackColor,
+                                      ),
                                     ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -297,11 +522,11 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-        // Bottom Navigation Bar
         bottomNavigationBar:
             BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
           builder: (context, state) {
             return BottomNavigationBar(
+              backgroundColor: AppColors.snowColor,
               currentIndex: state.pageIndex,
               onTap: (index) {
                 context
@@ -309,10 +534,10 @@ class HomeScreen extends StatelessWidget {
                     .changePageIndex(newPageIndex: index);
               },
               items: [
-                bottomNavBarItem(title: "Home", icon: "assets/home.svg"),
-                bottomNavBarItem(
-                    title: "Appointments", icon: "assets/calendar.svg"),
-                bottomNavBarItem(title: "Profile", icon: "assets/profile.svg"),
+                bottomNavBarItem(icon: AppImages.home),
+                bottomNavBarItem(icon: AppImages.calendar),
+                bottomNavBarItem(icon: AppImages.favorite),
+                bottomNavBarItem(icon: AppImages.notification)
               ],
             );
           },

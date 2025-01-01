@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:final_project/core/constants/app_strings.dart';
 import 'package:final_project/core/generic_widgets/custom_text_form_field/bloc/text_form_field_cubit.dart';
 import 'package:final_project/core/generic_widgets/custom_text_form_field/custom_text_form_field.dart';
 import 'package:final_project/core/generic_widgets/main_button.dart';
@@ -28,8 +30,8 @@ class NewPasswordScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  "Enter new password",
+                Text(
+                  AppStrings.enterNewPassword.tr(),
                   textAlign: TextAlign.center,
                   style: AppTextStyle.f32W700NearBlackColor,
                 ),
@@ -37,7 +39,7 @@ class NewPasswordScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Password",
+                    AppStrings.password.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
@@ -52,7 +54,7 @@ class NewPasswordScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Confirm Password",
+                    AppStrings.confirmPassword.tr(),
                     style: AppTextStyle.f12W400NearBlackColor.copyWith(
                       fontSize: 12.sp,
                     ),
@@ -65,7 +67,7 @@ class NewPasswordScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 178.h),
                 MainButton(
-                  text: 'Continue',
+                  text: AppStrings.continueText.tr(),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(

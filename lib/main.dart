@@ -1,5 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:final_project/core/generic_widgets/bottom_navigation_bar/cubit/bottom_navigation_cubit.dart';
 import 'package:final_project/core/generic_widgets/custom_text_form_field/bloc/text_form_field_cubit.dart';
+import 'package:final_project/core/theme/app_theme.dart';
+import 'package:final_project/core/theme/cubit/theme_cubit.dart';
+import 'package:final_project/core/theme/cubit/theme_state.dart';
 import 'package:final_project/features/authentication/cubit/auth_cubit.dart';
 import 'package:final_project/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,16 +40,33 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (BuildContext context) {
+              return BottomNavigationCubit();
+            },
+          ),
+          BlocProvider(
+            create: (BuildContext context) {
               return AuthCubit();
             },
           ),
+          BlocProvider(
+            create: (BuildContext context) {
+              return ThemeCubit(GetStorage());
+            },
+          ),
         ],
-        child: MaterialApp(
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          debugShowCheckedModeBanner: false,
-          home: const MyHomePage(),
+        child: BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, ThemeState state) {
+            return MaterialApp(
+              theme: (state is ThemeInitial || state is ThemeChanged)
+                  ? state.themeData
+                  : AppThemes.lightTheme,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              debugShowCheckedModeBanner: false,
+              home: const MyHomePage(),
+            );
+          },
         ),
       ),
     );

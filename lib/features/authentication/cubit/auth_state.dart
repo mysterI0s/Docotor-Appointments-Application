@@ -30,3 +30,12 @@ class RegisterErrorState extends AuthState {
   String errorMsg;
   RegisterErrorState(this.errorMsg);
 }
+
+class LogoutLoadingState extends AuthState {}
+
+class LogoutSuccessState extends AuthState {}
+
+class LogoutErrorState extends AuthState {
+  String errorMsg;
+  LogoutErrorState(this.errorMsg);
+}
