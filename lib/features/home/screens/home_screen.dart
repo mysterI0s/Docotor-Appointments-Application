@@ -139,6 +139,7 @@ class HomeScreen extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         context.read<AuthCubit>().logout(token);
+                        box.remove(token);
                       },
                       child: SvgPicture.asset(
                         AppImages.logout,
