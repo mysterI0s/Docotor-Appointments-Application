@@ -66,13 +66,13 @@ class SettingsScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 58.h),
                       CustomInputField(
                         label: AppStrings.name.tr(),
                         initialValue: state.name,
                         onChanged: cubit.updateName,
                       ),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 20.h),
                       CustomDatePickerField(
                         label: AppStrings.dateOfBirth.tr(),
                         initialDate: state.dateOfBirth,
@@ -100,7 +100,7 @@ class SettingsScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(width: 10.w),
+                          SizedBox(width: 8.w),
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
@@ -128,7 +128,7 @@ class SettingsScreen extends StatelessWidget {
                         initialValue: state.email,
                         onChanged: cubit.updateEmail,
                       ),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 24.h),
                       CustomInputField(
                         label: AppStrings.phoneNumber.tr(),
                         initialValue: state.phoneNumber,
