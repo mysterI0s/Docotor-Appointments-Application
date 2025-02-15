@@ -1,13 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// Define Onboarding States
 class OnboardingState {
   final int currentPage;
 
   const OnboardingState({required this.currentPage});
 }
 
-// Define Onboarding Cubit
 class OnboardingCubit extends Cubit<OnboardingState> {
   OnboardingCubit() : super(const OnboardingState(currentPage: 0));
 
